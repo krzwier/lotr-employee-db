@@ -1,4 +1,4 @@
-package com.krzwier.reactspringdatarest;
+package com.krzwier.payroll;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
