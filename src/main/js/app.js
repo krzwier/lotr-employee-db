@@ -1,23 +1,13 @@
 'use strict';
 
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import client from './client';
-// import follow from './follow';
-// import EmployeeList from './EmployeeList';
-// import CreateDialog from './CreateDialog';
-
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('./client');
-const follow = require('./follow');
 const EmployeeList = require('./EmployeeList');
 const CreateDialog = require('./CreateDialog');
 
 
 const root = '/api';
 class App extends React.Component {
-
 
     constructor(props) {
         super(props);
@@ -29,14 +19,13 @@ class App extends React.Component {
         };
         this.updatePageSize = this.updatePageSize.bind(this);
         this.onCreate = this.onCreate.bind(this);
-        // this.onDelete = this.onDelete.bind(this);
+        this.onDelete = this.onDelete.bind(this);
         this.onNavigate = this.onNavigate.bind(this);
     }
 
     async loadFromServer(pageSize) {
         const response = await fetch(root + "/employees/?size=" + pageSize, {
             method: 'GET',
-            // mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -55,49 +44,37 @@ class App extends React.Component {
             pageSize: pageSize,
             links: data._links
         });
-        
-
-
-        // let paramObj = {
-        //     size: pageSize
-        // };
-        // follow(client, root, [
-        //     {rel: 'employees', params: paramObj}]
-        // ).then(employeeCollection => {
-        //     return client({
-        //         method: 'GET',
-        //         path: employeeCollection.entity._links.profile.href,
-        //         headers: {'Accept': 'application/schema+json'}
-        //     }).then(schema => {
-        //         this.schema = schema.entity;
-        //         this.setState({
-        //             employees: employeeCollection.entity._embedded.employees,
-        //             attributes: Object.keys(this.schema.properties),
-        //             pageSize: pageSize,
-        //             links: employeeCollection.entity._links});
-        //         return employeeCollection;
-        //     });
-        // });
     }
 
-    onCreate(newEmployee) {
-        follow(client, root, ['employees']).then(employeeCollection => {
-            return client({
-                method: 'POST',
-                path: employeeCollection.entity._links.self.href,
-                entity: newEmployee,
-                headers: { 'Content-Type': 'application/json' }
-            })
-        }).then(response => {
-            return follow(client, root, [
-                { rel: 'employees', params: { 'size': this.state.pageSize } }]);
-        }).then(response => {
-            if (typeof response.entity._links.last !== "undefined") {
-                this.onNavigate(response.entity._links.last.href);
-            } else {
-                this.onNavigate(response.entity._links.self.href);
+    async onCreate(newEmployee) {
+        const origResponse = await fetch(root + "/employees", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
             }
         });
+        const data = await origResponse.json();
+        const postResponse = await fetch(data._links.self.href, {
+            method: 'POST',
+            body: JSON.stringify(newEmployee),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const updatedResponse = await fetch(root + "/employees/?size=" + this.state.pageSize, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const updatedData = await updatedResponse.json();
+        if (typeof updatedData._links.last !== "undefined") {
+            this.onNavigate(updatedData._links.last.href);
+        } else {
+            this.onNavigate(updatedData._links.self.href);
+        }
+        
+    
     }
 
     async onNavigate(navUri) {
@@ -111,6 +88,13 @@ class App extends React.Component {
             pageSize: this.state.pageSize,
             links: data._links
         })
+    }
+
+    async onDelete(employee) {
+        const response = await fetch(employee._links.self.href, {
+            method: 'DELETE',
+        });
+        this.loadFromServer(this.state.pageSize);
     }
 
     updatePageSize(pageSize) {
@@ -132,6 +116,7 @@ class App extends React.Component {
                     links={this.state.links}
                     pageSize={this.state.pageSize}
                     onNavigate={this.onNavigate}
+                    onDelete={this.onDelete}
                     updatePageSize={this.updatePageSize} />
             </div>
 
