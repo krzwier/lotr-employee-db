@@ -36,8 +36,8 @@ class CreateDialog extends React.Component {
         );
 
         return (
-            <div>
-                <a href="#createEmployee">Create</a>
+            <div className="createDialog">
+                <a id="create-button" href="#createEmployee">Add New Companion</a>
 
                 <div id="createEmployee" className="modalDialog">
                     <div>

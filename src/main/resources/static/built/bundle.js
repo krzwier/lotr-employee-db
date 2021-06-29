@@ -317,9 +317,12 @@ var CreateDialog = /*#__PURE__*/function (_React$Component) {
           className: "field ".concat(attribute)
         }));
       });
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("a", {
+      return /*#__PURE__*/React.createElement("div", {
+        className: "createDialog"
+      }, /*#__PURE__*/React.createElement("a", {
+        id: "create-button",
         href: "#createEmployee"
-      }, "Create"), /*#__PURE__*/React.createElement("div", {
+      }, "Add New Companion"), /*#__PURE__*/React.createElement("div", {
         id: "createEmployee",
         className: "modalDialog"
       }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("a", {
@@ -532,10 +535,15 @@ var EmployeeList = /*#__PURE__*/function (_React$Component) {
         }, ">>"));
       }
 
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("input", {
+      return /*#__PURE__*/React.createElement("div", {
+        className: "employee-list"
+      }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+        "for": "page-size"
+      }, "Items per page:"), /*#__PURE__*/React.createElement("input", {
+        id: "page-size",
         defaultValue: this.props.pageSize,
         onInput: this.handleInput
-      }), /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "First Name"), /*#__PURE__*/React.createElement("th", null, "Last Name"), /*#__PURE__*/React.createElement("th", null, "Description")), employees)), /*#__PURE__*/React.createElement("div", null, navLinks));
+      })), /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "First Name"), /*#__PURE__*/React.createElement("th", null, "Last Name"), /*#__PURE__*/React.createElement("th", null, "Description")), employees)), /*#__PURE__*/React.createElement("div", null, navLinks));
     }
   }]);
 
@@ -31434,7 +31442,9 @@ var App = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(CreateDialog, {
+      return /*#__PURE__*/React.createElement("div", {
+        className: "App"
+      }, /*#__PURE__*/React.createElement(CreateDialog, {
         attributes: this.state.attributes,
         onCreate: this.onCreate
       }), /*#__PURE__*/React.createElement(EmployeeList, {

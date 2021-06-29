@@ -68,8 +68,12 @@ class EmployeeList extends React.Component {
         }
 
         return (
-            <div>
-                <input defaultValue={this.props.pageSize} onInput={this.handleInput} />
+            <div className="employee-list">
+                <div>
+                    <label for="page-size">Items per page:</label>
+                    <input id="page-size" defaultValue={this.props.pageSize} onInput={this.handleInput} />
+                </div>
+                
                 <table>
                     <tbody>
                         <tr>

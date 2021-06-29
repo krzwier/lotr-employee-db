@@ -1,16 +1,68 @@
+html {
+    background: url(img/middle-earth2.jpg) no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    width: 90%;
+    max-width: 1000px;
+}
+
+.App {
+    background-color: #dcc888;
+    opacity: 92%;
+    padding: 20px;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: auto;
+}
+
+/* .wrapper {
+    width: 90%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.employee-list {
+    width: 100%;
+}
+
+.employee-list>div {
+    float: right;
+    padding: 20px 0;
+}
+
 input.field {
     width: 90%;
 }
 
 table {
+    width: 100%;
     border-collapse: collapse;
+
 }
 
 td, th {
-    border: 1px solid #999;
+    border: 1px solid #4d2908;
     padding: 0.5rem;
     text-align: left;
 }
+
+#create-button {
+    padding: 1em;
+    color: #ebe5cc;
+    text-decoration: none;
+    background-color: #4d2908;
+}
+
+
 
 /*Classes for creating dialogs*/
 
